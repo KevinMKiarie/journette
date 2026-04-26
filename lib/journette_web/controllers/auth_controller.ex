@@ -8,7 +8,7 @@ defmodule JournetteWeb.AuthController do
   def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
     conn
     |> put_flash(:error, "Authentication Failed, please try again in 3s")
-    |> redirect(to: ~p"/users/log_in")
+    |> redirect(to: ~p"/users/log-in")
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
@@ -21,7 +21,7 @@ defmodule JournetteWeb.AuthController do
       {:error, _reason} ->
         conn
         |> put_flash(:error, "Could not sign in")
-        |> redirect(to: ~p"/users/log_in")
+        |> redirect(to: ~p"/users/log-in")
     end
   end
 end

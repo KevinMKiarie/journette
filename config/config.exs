@@ -80,7 +80,7 @@ config :ueberauth, Ueberauth,
     google:
       {Ueberauth.Strategy.Google,
        [
-         default_scope: "email_profile"
+         default_scope: "email profile"
        ]},
     # github
     github:

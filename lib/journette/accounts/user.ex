@@ -8,8 +8,9 @@ defmodule Journette.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :utc_datetime
     field :authenticated_at, :utc_datetime, virtual: true
-    # role field
     field :role, :string, default: "editor"
+
+    has_many :user_identities, Journette.Accounts.UserIdentity
 
     timestamps(type: :utc_datetime)
   end
@@ -104,13 +105,14 @@ defmodule Journette.Accounts.User do
   defp validate_password(changeset, opts) do
     changeset
     |> validate_required([:password])
-    |> validate_length(:password, min: 12, max: 72)
+    |> validate_length(:password, min: 6, max: 72)
     # Examples of additional password validation:
     # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
     # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
     # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
     |> maybe_hash_password(opts)
   end
+  
 
   defp maybe_hash_password(changeset, opts) do
     hash_password? = Keyword.get(opts, :hash_password, true)
@@ -151,5 +153,32 @@ defmodule Journette.Accounts.User do
   def valid_password?(_, _) do
     Bcrypt.no_user_verify()
     false
+  end
+
+  @doc """
+  Changeset for public registration — captures email and role (editor | organization).
+  """
+  def registration_changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, [:email, :role])
+    |> validate_email(opts)
+    |> validate_inclusion(:role, ["editor", "organization"],
+      message: "must be editor or organization"
+    )
+  end
+
+  @doc """
+  Changeset for users created via OAuth — no password required, email pre-confirmed.
+  """
+  def oauth_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:email, :confirmed_at])
+    |> validate_required([:email, :confirmed_at])
+    |> validate_format(:email, ~r/^[^@,;\s]+@[^@,;\s]+$/,
+      message: "must have the @ sign and no spaces"
+    )
+    |> validate_length(:email, max: 160)
+    |> unsafe_validate_unique(:email, Journette.Repo)
+    |> unique_constraint(:email)
   end
 end

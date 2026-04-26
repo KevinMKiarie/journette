@@ -1,11 +1,11 @@
-defmodule JournetteWeb.RequireRole do
+defmodule JournetteWeb.Plugs.RequireRole do
   import Plug.Conn
   import Phoenix.Controller
 
   def init(role), do: role
 
   def call(conn, required_role) do
-    user = conn.assigns[:current_user]
+    user = conn.assigns[:current_scope] && conn.assigns.current_scope.user
 
     if user && user.role == required_role do
       conn

@@ -6,7 +6,7 @@ defmodule Journette.Accounts do
   import Ecto.Query, warn: false
   alias Journette.Repo
 
-  alias Journette.Accounts.{User, UserToken, UserNotifier}
+  alias Journette.Accounts.{User, UserToken, UserNotifier, UserIdentity}
 
   ## Database getters
 
@@ -76,8 +76,12 @@ defmodule Journette.Accounts do
   """
   def register_user(attrs) do
     %User{}
-    |> User.email_changeset(attrs)
+    |> User.registration_changeset(attrs)
     |> Repo.insert()
+  end
+
+  def change_user_registration(user, attrs \\ %{}, opts \\ []) do
+    User.registration_changeset(user, attrs, opts)
   end
 
   ## Settings
@@ -318,7 +322,7 @@ defmodule Journette.Accounts do
   end
 
   # create auth user
-  defp create_oauth_user!(email, auth) do
+  defp create_oauth_user!(email, _auth) do
     %User{}
     |> User.oauth_changeset(%{
       email: email,

@@ -3,7 +3,7 @@ defmodule Journette.Repo.Migrations.AddRolesToUsers do
 
   def change do
     alter table(:users) do
-      add :role, :string, bull: false, default: "editor"
+      add :role, :string, null: false, default: "editor"
     end
 
     create index(:users, [:role])
