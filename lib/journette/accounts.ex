@@ -294,4 +294,38 @@ defmodule Journette.Accounts do
       end
     end)
   end
+
+  # find or create
+  def find_or_create_from_oauth(%Ueberauth.Auth{} = auth) do
+    uid = to_string(auth.uid)
+    provider = to_string(auth.provider)
+    email = auth.info.email
+
+    case Repo.get_by(UserIdentity, provider: provider, uid: uid) do
+      %UserIdentity{} = identity ->
+        {:ok, Repo.preload(identity, :user).user}
+
+      nil ->
+        Repo.transaction(fn ->
+          user =
+            Repo.get_by(User, email: email) ||
+              create_oauth_user!(email, auth)
+
+          Repo.insert!(%UserIdentity{user_id: user.id, provider: provider, uid: uid})
+          user
+        end)
+    end
+  end
+
+  # create auth user
+  defp create_oauth_user!(email, auth) do
+    %User{}
+    |> User.oauth_changeset(%{
+      email: email,
+      confirmed_at:
+        DateTime.utc_now()
+        |> DateTime.truncate(:second)
+    })
+    |> Repo.insert!()
+  end
 end
