@@ -8,10 +8,33 @@ defmodule Journette.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :utc_datetime
     field :authenticated_at, :utc_datetime, virtual: true
+    # role field
+    field :role, :string, default: "editor"
 
     timestamps(type: :utc_datetime)
   end
 
+  @spec email_changeset(
+          {map(),
+           %{
+             optional(atom()) =>
+               atom()
+               | {:array | :assoc | :embed | :in | :map | :parameterized | :supertype | :try,
+                  any()}
+           }}
+          | %{
+              :__struct__ => atom() | %{:__changeset__ => any(), optional(any()) => any()},
+              optional(atom()) => any()
+            },
+          :invalid | %{optional(:__struct__) => none(), optional(atom() | binary()) => any()}
+        ) :: Ecto.Changeset.t()
+
+  # Admin gurad for role checker
+  def admin?(%__MODULE__{role: "admin"}), do: true
+
+  def admin?(_), do: false
+  # Assign admin manually via db or seed
+  # UPDATE users SET role = 'admin' WHERE email = 'your@email.com';
   @doc """
   A user changeset for registering or changing the email.
 
