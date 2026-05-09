@@ -69,7 +69,8 @@ defmodule Journette.MixProject do
       {:bandit, "~> 1.5"},
       {:ueberauth, "~> 0.10"},
       {:ueberauth_google, "~> 0.12"},
-      {:ueberauth_github, "~> 0.8"}
+      {:ueberauth_github, "~> 0.8"},
+      {:redix, "~> 1.5"}
     ]
   end
 

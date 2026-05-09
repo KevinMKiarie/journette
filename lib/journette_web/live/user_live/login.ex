@@ -26,45 +26,42 @@ defmodule JournetteWeb.UserLive.Login do
       <div :if={local_mail_adapter?()} class="alert alert-info mb-6 py-3 text-sm">
         <.icon name="hero-information-circle" class="size-4 shrink-0" />
         <span>
-          Dev mode: view sent emails at
-          <.link href="/dev/mailbox" class="underline font-medium">the mailbox page</.link>.
+          Dev mode: view sent emails at <.link href="/dev/mailbox" class="underline font-medium">the mailbox page</.link>.
         </span>
       </div>
 
       <%!-- Login method tabs --%>
-      <div class="flex rounded-xl border border-base-300 bg-base-200 p-1 gap-1 mb-6">
+      <div class="flex  border border-base-300 bg-base-200 p-1 gap-1 mb-6">
         <button
           type="button"
           phx-click="set_login_method"
           phx-value-method="magic"
-          class={"flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-200 flex items-center justify-center gap-1.5 " <>
+          class={"flex-1 py-2.5 px-4  text-sm font-medium transition-all duration-200 flex items-center justify-center gap-1.5 " <>
             if(@login_method == "magic",
               do: "bg-base-100 text-base-content shadow-sm",
               else: "text-base-content/45 hover:text-base-content/70"
             )}
         >
-          <.icon name="hero-envelope-micro" class="size-3.5" />
-          Magic Link
+          <.icon name="hero-envelope-micro" class="size-3.5" /> Magic Link
         </button>
         <button
           type="button"
           phx-click="set_login_method"
           phx-value-method="password"
-          class={"flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-200 flex items-center justify-center gap-1.5 " <>
+          class={"flex-1 py-2.5 px-4  text-sm font-medium transition-all duration-200 flex items-center justify-center gap-1.5 " <>
             if(@login_method == "password",
               do: "bg-base-100 text-base-content shadow-sm",
               else: "text-base-content/45 hover:text-base-content/70"
             )}
         >
-          <.icon name="hero-lock-closed-micro" class="size-3.5" />
-          Password
+          <.icon name="hero-lock-closed-micro" class="size-3.5" /> Password
         </button>
       </div>
 
       <%!-- Magic link form --%>
       <.form
-        :if={@login_method == "magic"}
         :let={f}
+        :if={@login_method == "magic"}
         for={@form}
         id="login_form_magic"
         action={~p"/users/log-in"}
@@ -92,8 +89,8 @@ defmodule JournetteWeb.UserLive.Login do
 
       <%!-- Password form --%>
       <.form
-        :if={@login_method == "password"}
         :let={f}
+        :if={@login_method == "password"}
         for={@form}
         id="login_form_password"
         action={~p"/users/log-in"}

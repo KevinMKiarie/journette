@@ -23,6 +23,9 @@ end
 config :journette, JournetteWeb.Endpoint,
   http: [port: String.to_integer(System.get_env("PORT", "4000"))]
 
+config :journette,
+  redis_url: System.get_env("REDIS_URL", "redis://localhost:6379")
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||

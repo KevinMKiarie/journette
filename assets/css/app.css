@@ -103,3 +103,33 @@
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
 /* This file is for your main application CSS */
+
+/* ─── Breaking news ticker ─────────────────────────────────── */
+@keyframes journette-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.ticker-animate {
+  animation: journette-ticker 50s linear infinite;
+  will-change: transform;
+}
+
+.ticker-animate:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Scrollbar hide utility ────────────────────────────────── */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ─── Text line clamp (Tailwind v4 already has these, fallback) */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

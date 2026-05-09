@@ -22,7 +22,8 @@ config :journette, :scopes,
 
 config :journette,
   ecto_repos: [Journette.Repo],
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  redis_url: "redis://localhost:6379"
 
 # Configure the endpoint
 config :journette, JournetteWeb.Endpoint,

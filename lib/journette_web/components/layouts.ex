@@ -96,7 +96,6 @@ defmodule JournetteWeb.Layouts do
   def auth(assigns) do
     ~H"""
     <div class="min-h-screen flex">
-
       <div
         style="background: url('/images/journette-log.jpg') center/cover no-repeat"
         class="hidden lg:flex lg:w-1/2 relative overflow-hidden flex-col justify-between p-12  "
@@ -120,16 +119,13 @@ defmodule JournetteWeb.Layouts do
           </p>
         </div>
 
-
         <div class="relative z-10">
           <p class="text-white/25 text-sm">© 2026 Journette. All rights reserved.</p>
         </div>
       </div>
 
-
       <div class="flex-1 flex items-center justify-center bg-base-100 p-8 lg:p-12">
         <div class="w-full max-w-md">
-
           <div class="lg:hidden mb-10">
             <img src={~p"/images/Journette.png"} class="h-8 w-auto" alt="Journette" />
           </div>
@@ -192,8 +188,8 @@ defmodule JournetteWeb.Layouts do
   """
   def theme_toggle(assigns) do
     ~H"""
-    <div class="card relative flex flex-row items-center border-2 border-base-300 bg-base-300 rounded-full">
-      <div class="absolute w-1/3 h-full rounded-full border-1 border-base-200 bg-base-100 brightness-200 left-0 [[data-theme=light]_&]:left-1/3 [[data-theme=dark]_&]:left-2/3 transition-[left]" />
+    <div class="card relative flex flex-row items-center border-2 border-base-300 bg-base-300 ">
+      <div class="absolute w-1/3 h-full  border-1 border-base-200 bg-base-100 brightness-200 left-0 [[data-theme=light]_&]:left-1/3 [[data-theme=dark]_&]:left-2/3 transition-[left]" />
 
       <button
         class="flex p-2 cursor-pointer w-1/3"

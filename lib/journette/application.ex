@@ -7,14 +7,17 @@ defmodule Journette.Application do
 
   @impl true
   def start(_type, _args) do
+    redis_url = Application.get_env(:journette, :redis_url, "redis://localhost:6379")
+
     children = [
       JournetteWeb.Telemetry,
       Journette.Repo,
       {DNSCluster, query: Application.get_env(:journette, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Journette.PubSub},
-      # Start a worker by calling: Journette.Worker.start_link(arg)
-      # {Journette.Worker, arg},
-      # Start to serve requests, typically the last entry
+      %{
+        id: :journette_redis,
+        start: {Redix, :start_link, [redis_url, [name: :journette_redis, sync_connect: false]]}
+      },
       JournetteWeb.Endpoint
     ]
 
